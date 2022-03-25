@@ -1,0 +1,240 @@
+{
+	"info": {
+		"_postman_id": "e23b8f5d-f89c-49f7-a420-e4792c75dc0a",
+		"name": "NMCodingExercise",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "NMget",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Verify RC should be 200 upon successfull request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.environment.set(\"userId\",jsonData.userId);\r",
+							"pm.environment.set(\"title\",jsonData.title);\r",
+							"pm.environment.set(\"body\",jsonData.body);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/posts/1",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NMPostCall",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"userId\", pm.variables.replaceIn(\"{{$randomInt}}\"));\r",
+							"\r",
+							"pm.environment.set(\"title\", pm.variables.replaceIn(\"{{$randomCatchPhrase}}\"));\r",
+							"\r",
+							"pm.environment.set(\"body\", pm.variables.replaceIn(\"{{$randomPhrase}}\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Verify RC should be 201 upon successfull request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.eql(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify userID matched with stored data\", function () {\r",
+							"    pm.expect(jsonData.userId).to.be.eql(environment.userId);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"verify that response body has an ID\", function (){\r",
+							"    pm.expect(jsonData).to.have.property('id');\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Verify title matched with stored data\", function () {\r",
+							"    pm.expect(jsonData.title).to.be.eql(environment.title);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify body matched with stored data\", function () {\r",
+							"    pm.expect(jsonData.body).to.be.eql(environment.body);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"{{userId}}\",\r\n    \"id\": \"\",\r\n    \"title\": \"{{title}}\",\r\n    \"body\": \"{{body}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/posts",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NMPutCall",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"title\", pm.variables.replaceIn(\"{{$randomCatchPhrase}}\"));\r",
+							"\r",
+							"pm.environment.set(\"body\", pm.variables.replaceIn(\"{{$randomPhrase}}\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Verify RC should be 200 upon successfull request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify userID matched with stored data\", function () {\r",
+							"    pm.expect(jsonData.userId).to.be.eql(environment.userId);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"verify that response body has an ID\", function (){\r",
+							"    pm.expect(jsonData).to.have.property('id');\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Verify title matched with stored data\", function () {\r",
+							"    pm.expect(jsonData.title).to.be.eql(environment.title);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify body matched with stored data\", function () {\r",
+							"    pm.expect(jsonData.body).to.be.eql(environment.body);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"{{userId}}\",\r\n    \"id\": \"\",\r\n    \"title\": \"{{title}}\",\r\n    \"body\": \"{{body}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/posts/1",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NMDelete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Verify RC should be 200 upon successfull request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.eql(200);});\r",
+							"pm.test(\"Verify response body is empty\", function () {\r",
+							"    pm.expect(jsonData).is.empty;});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/posts/1",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
